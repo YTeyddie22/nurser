@@ -106,3 +106,32 @@ Format your code before committing:
 Check for code quality issues:
 
     npm run lint
+## 🗺️ Roadmap
+
+    Authentication system (JWT)
+
+    Staff management endpoints
+
+    Medication administration tracking
+
+    Appointment scheduling
+
+    Reporting module
+
+    Swagger/OpenAPI documentation
+
+## ❓ Support
+
+For help or questions:
+
+    Open an Issue
+
+    Join our Discussions
+
+## 🙏 Acknowledgments
+
+    Effect Team for the amazing framework
+
+    PostgreSQL community
+
+    All contributors
