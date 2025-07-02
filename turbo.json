@@ -1,0 +1,25 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "envMode": "loose",
+    "tasks": {
+        "dev": {
+            "persistent": true,
+            "cache": false
+        },
+        "lint": {
+            "outputs": []
+        },
+        "db:generate": {
+            "cache": false
+        },
+        "db:migrate": {
+            "cache": false
+        },
+        "db:push": {
+            "cache": false
+        },
+        "db:studio": {
+            "cache": false
+        }
+    }
+}
