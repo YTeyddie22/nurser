@@ -1,0 +1,10 @@
+{
+    "extends": "@nurser/tsconfig/base",
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true
+    },
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules"]
+}
