@@ -1,0 +1,13 @@
+{
+    "name": "@nurser/client",
+    "version": "1.0.0",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "lint": "eslint ."
+    },
+    "devDependencies": {
+        "@nurser/eslint-config": "*",
+        "@nurser/tsconfig": "*"
+    }
+}
