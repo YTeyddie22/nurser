@@ -25,9 +25,12 @@
         "url": "https://github.com/YTeyddie22/nurser/issues"
     },
     "homepage": "https://github.com/YTeyddie22/nurser#readme",
+    "dependencies": {
+        "effect": "^3.16.12"
+    },
     "devDependencies": {
-        "@types/node": "^24.0.10",
         "@nurser/tsconfig": "*",
+        "@types/node": "^24.0.10",
         "prettier": "^3.6.2",
         "ts-node": "^10.9.2",
         "tsx": "^4.20.3",
