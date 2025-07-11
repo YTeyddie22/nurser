@@ -27,6 +27,18 @@ out/
 build
 dist
 
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+
+# ide
+.idea
+.vscode
+.turbo
+
+.dev.vars.*
+
 
 # Debug
 npm-debug.log*
@@ -38,4 +50,3 @@ yarn-error.log*
 *.pem
 
 
-package-lock.json
