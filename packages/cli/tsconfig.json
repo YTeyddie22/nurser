@@ -1,0 +1,3 @@
+{
+    "extends": "@nurser/tsconfig/base"
+}
