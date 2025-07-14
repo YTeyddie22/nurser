@@ -10,7 +10,9 @@ import { join } from "path";
 
 class InvalidProjectRootError {
     readonly _tag = "InvalidProjectRootError";
-    constructor(readonly message: string) {}
+    constructor(readonly message: string) {
+        message = "error getting root of project";
+    }
 }
 
 export const getProjectRoot = Effect.gen(function* ($) {
