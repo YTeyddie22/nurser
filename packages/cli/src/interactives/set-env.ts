@@ -49,14 +49,14 @@ export const command: Command = {
 
         const envFileContent = yield* $(
             Effect.tryPromise({
-                try: () => readFile(envPath, "utf-8"),
+                try: () => readFile(envPath, "utf8"),
                 catch: (e) => new Error(`Failed to read .env file: ${e}`),
             }).option
         );
 
         const envExampleFileContent = yield* $(
             Effect.tryPromise({
-                try: () => readFile(exampleEnvPath, "utf-8"),
+                try: () => readFile(exampleEnvPath, "utf8"),
                 catch: (e) =>
                     new Error(`Failed to read .env.example file: ${e}`),
             }).option
