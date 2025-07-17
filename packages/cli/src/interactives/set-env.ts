@@ -71,9 +71,12 @@ export const command: Command = {
             );
         }
 
-        let envVariables = Option.isSome(envFileContent)
-            ? yield* $(parseEnv(envFileContent.value))
-            : [];
+        const envVariables = yield* $(
+            Option.match({
+                onNone: () => Effect.succeed([]),
+                onSome: (content) => parseEnv(content),
+            })(envFileContent)
+        );
 
         const envExampleVariables = yield* $(
             parseEnv(envExampleFileContent.value)
@@ -96,7 +99,7 @@ export const command: Command = {
                     if (variable.key.startsWith("NEXT_PUBLIC_")) {
                         return {
                             key: variable.key.replace(
-                                "Next_PUBLIC_",
+                                "NEXT_PUBLIC_",
                                 "VITE_PUBLIC"
                             ),
                             value: variable.value,
