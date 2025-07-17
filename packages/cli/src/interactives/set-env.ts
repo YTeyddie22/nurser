@@ -169,8 +169,7 @@ export const command: Command = {
             .join("\n");
 
         yield* $(
-            Effect,
-            tryPromise({
+            Effect.tryPromise({
                 try: () => writeFile(envPath, formattedEnvContent),
                 catch: (e) => new Error(`Failed to write .env file:${e}`),
             })
