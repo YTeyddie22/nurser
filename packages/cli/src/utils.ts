@@ -1,4 +1,4 @@
-import { Effect, pipe, Option, Console } from "effect";
+import { Effect, Console } from "effect";
 import { spawn, type SpawnOptions } from "child_process";
 import { readFile } from "fs/promises";
 import { log } from "@clack/prompts";
