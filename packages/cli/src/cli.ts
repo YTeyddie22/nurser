@@ -1,22 +1,53 @@
-import { Effect } from "effect";
+import { Effect, pipe, Option } from "effect";
 
 import { intro, select, isCancel, outro, log } from "@clack/prompts";
 import * as interactives from "./interactives";
-import { Console } from "effect";
 
 const printHelp = Effect.gen(function* (_) {
-	yield* _(Console.log("Available commands:"));
+	yield* _(Effect.sync(() => log.message("Available commands:")));
 	for (const interactive of Object.values(interactives)) {
 		yield* _(
-			Console.log(
-				` ${interactive.id.padStart(15)}    ${interactive.description}`
+			Effect.sync(() =>
+				log.message(
+					` ${interactive.id.padStart(15)}    ${interactive.description}`
+				)
 			)
 		);
 	}
-	yield* _(Console.log("Run `npm nurser` for an interactive experience\n"));
+	yield* _(
+		Effect.sync(() =>
+			log.message("Run `npm nurser` for an interactive experience\n")
+		)
+	);
 	yield* _(Effect.sync(() => outro("")));
 	return yield* _(Effect.sync(() => process.exit(0)));
 });
+
+const runInteractive = (id: string) =>
+	pipe(
+		Option.fromNullable(
+			Object.values(interactives).find(
+				(interactive) => interactive.id === id
+			)
+		),
+		Option.match({
+			onNone: () =>
+				pipe(
+					Effect.sync(() =>
+						log.message(`I do not know how to do that, Yet!`)
+					),
+					Effect.zipRight(Effect.sync(() => outro(""))),
+					Effect.zipRight(Effect.sync(() => process.exit(0)))
+				),
+
+			onSome: (interactive) =>
+				pipe(
+					interactive.run,
+					Effect.zipRight(Effect.sync(() => outro("Done!"))),
+					Effect.zipRight(Effect.sync(() => process.exit(0)))
+				),
+		})
+	);
 
 const program = Effect.gen(function* (_) {
 	const args = process.argv.slice(2);
@@ -53,4 +84,9 @@ const program = Effect.gen(function* (_) {
 
 		return yield* _(runInteractive(firstArg));
 	}
+});
+
+Effect.runPromise(program).catch((err) => {
+	console.error(err);
+	process.exit(1);
 });
