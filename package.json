@@ -1,44 +1,45 @@
 {
-    "name": "nurser",
-    "private": true,
-    "version": "1.0.0",
-    "description": "A modern, type-safe nursing home management system built with PostgreSQL and Effect, designed to streamline resident care, staff management, and medication administration.",
-    "packageManager": "npm@10.9.2",
-    "workspaces": [
-        "apps/*",
-        "packages/*"
-    ],
-    "scripts": {
-        "dev": "turbo run dev",
-        "build": "turbo run build",
-        "lint": "turbo run lint",
-        "format": "prettier --write apps/**/*.{ts,tsx} --log-level silent"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/YTeyddie22/nurser.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/YTeyddie22/nurser/issues"
-    },
-    "homepage": "https://github.com/YTeyddie22/nurser#readme",
-    "devDependencies": {
-        "@nurser/tsconfig": "*",
-        "@types/node": "^24.0.10",
-        "dotenv-cli": "^8.0.0",
-        "prettier": "^3.6.2",
-        "ts-node": "^10.9.2",
-        "tsx": "^4.20.3",
-        "turbo": "^2.5.4",
-        "typescript": "^5.8.3"
-    },
-    "engines": {
-        "node": ">=18"
-    },
-    "dependencies": {
-        "effect": "^3.16.13"
-    }
+	"name": "nurser",
+	"private": true,
+	"version": "1.0.0",
+	"description": "A modern, type-safe nursing home management system built with PostgreSQL and Effect, designed to streamline resident care, staff management, and medication administration.",
+	"packageManager": "npm@10.9.2",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"nurser": "tsx ./packages/cli/src/cli.ts",
+		"dev": "turbo run dev",
+		"build": "turbo run build",
+		"lint": "turbo run lint",
+		"format": "prettier --write apps/**/*.{ts,tsx} --log-level silent"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/YTeyddie22/nurser.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/YTeyddie22/nurser/issues"
+	},
+	"homepage": "https://github.com/YTeyddie22/nurser#readme",
+	"devDependencies": {
+		"@nurser/tsconfig": "*",
+		"@types/node": "^24.0.10",
+		"dotenv-cli": "^8.0.0",
+		"prettier": "^3.6.2",
+		"ts-node": "^10.9.2",
+		"tsx": "^4.20.3",
+		"turbo": "^2.5.4",
+		"typescript": "^5.8.3"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"dependencies": {
+		"effect": "^3.16.13"
+	}
 }
