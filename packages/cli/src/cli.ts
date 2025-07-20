@@ -4,6 +4,20 @@ import { intro, select, isCancel, outro, log } from "@clack/prompts";
 import * as interactives from "./interactives";
 import { Console } from "effect";
 
+const printHelp = Effect.gen(function* (_) {
+	yield* _(Console.log("Available commands:"));
+	for (const interactive of Object.values(interactives)) {
+		yield* _(
+			Console.log(
+				` ${interactive.id.padStart(15)}    ${interactive.description}`
+			)
+		);
+	}
+	yield* _(Console.log("Run `npm nurser` for an interactive experience\n"));
+	yield* _(Effect.sync(() => outro("")));
+	return yield* _(Effect.sync(() => process.exit(0)));
+});
+
 const program = Effect.gen(function* (_) {
 	const args = process.argv.slice(2);
 
