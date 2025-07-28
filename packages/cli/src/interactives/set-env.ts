@@ -1,10 +1,18 @@
 import { Effect, pipe, Option, Console } from "effect";
 import * as Prompt from "@clack/prompts";
-import { readFile, writeFile } from "fs/promises";
+import { access, readFile, writeFile } from "fs/promises";
 import { join } from "path";
 import type { Command } from ".";
 
 import { getProjectRoot, parseEnv } from "../utils";
+import { constants } from "fs";
+
+const requiredManualVariables = [
+	"GOOGLE_CLIENT_ID",
+	"GOOGLE_CLIENT_SECRET",
+	"MICROSOFT_CLIENT_ID",
+	"MICROSOFT_CLIENT_SECRET",
+];
 
 class CancelledError {
 	readonly _tag = "CancelledError"; // Unique tag for pattern matching with Effect.catchTag
@@ -32,35 +40,39 @@ const promptText = (options: Prompt.TextOptions) =>
 		});
 	});
 
-const requiredManualVariables = [
-	"GOOGLE_CLIENT_ID",
-	"GOOGLE_CLIENT_SECRET",
-	"MICROSOFT_CLIENT_ID",
-	"MICROSOFT_CLIENT_SECRET",
-];
-
-export const command: Command = {
-	id: "env",
-	description: "Setup the environment variables",
-	run: Effect.gen(function* ($) {
+const program = pipe(
+	Effect.gen(function* ($) {
 		const root = yield* $(getProjectRoot);
 		const envPath = join(root, ".env");
 		const exampleEnvPath = join(root, ".env.example");
-
-		const envFileContent = yield* $(
-			Effect.tryPromise({
-				try: () => readFile(envPath, "utf8"),
-				catch: (e) => new Error(`Failed to read .env file: ${e}`),
-			}).option
-		);
 
 		const envExampleFileContent = yield* $(
 			Effect.tryPromise({
 				try: () => readFile(exampleEnvPath, "utf8"),
 				catch: (e) =>
 					new Error(`Failed to read .env.example file: ${e}`),
-			}).option
+			})
 		);
+
+		// Step 2: Check if createa .env file
+
+		yield* $(
+			Effect.tryPromise({
+				try: () => writeFile(envPath, envExampleFileContent),
+				catch: (e) => new Error(`Failed to create .env: ${e}`),
+			})
+		);
+
+		// Step 3: Read existing .env
+		let envFileContent = yield* $(
+			Effect.tryPromise({
+				try: () => readFile(envPath, "utf8"),
+				catch: (e) => new Error(`Failed to read .env file: ${e}`),
+			})
+		);
+
+		let envVariables = yield* $(parseEnv(envFileContent));
+		const envExampleVariables = yield* $(parseEnv(envExampleFileContent));
 
 		if (Option.isNone(envExampleFileContent)) {
 			yield* $(
@@ -70,17 +82,6 @@ export const command: Command = {
 				Effect.die(new Error("No .env.example file found"))
 			);
 		}
-
-		let envVariables = yield* $(
-			Option.match({
-				onNone: () => Effect.succeed([]),
-				onSome: (content) => parseEnv(content),
-			})(envFileContent)
-		);
-
-		const envExampleVariables = yield* $(
-			parseEnv(envExampleFileContent.value)
-		);
 
 		//Log based on whether the env file exists
 
@@ -179,14 +180,19 @@ export const command: Command = {
 		);
 
 		yield* $(Console.log("Environment variables updated successfully."));
-	}).pipe(
-		Effect.catchTag(`CancelledError`, () =>
-			Console.error("Operation cancelled by User")
-		),
-		Effect.catchAll((e) =>
-			Console.error(
-				`An unexpected error occured: ${e instanceof Error ? e.message : String(e)}`
-			)
-		)
+	}),
+	Effect.catchTag(`CancelledError`, () =>
+		Console.error("Operation cancelled by User")
 	),
+	Effect.catchAll((e) =>
+		Console.error(
+			`An unexpected error occured: ${e instanceof Error ? e.message : String(e)}`
+		)
+	)
+);
+
+export const command: Command = {
+	id: "env",
+	description: "Setup the environment variables",
+	run: program,
 };
