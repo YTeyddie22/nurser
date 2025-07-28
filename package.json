@@ -13,6 +13,7 @@
 		"dev": "turbo run dev",
 		"build": "turbo run build",
 		"lint": "turbo run lint",
+		"lint-hub": "prettier --write --ignore-unknown",
 		"format": "prettier --write apps/**/*.{ts,tsx} --log-level silent"
 	},
 	"repository": {
@@ -30,7 +31,9 @@
 		"@nurser/tsconfig": "*",
 		"@types/node": "^24.0.10",
 		"dotenv-cli": "^8.0.0",
+		"husky": "9.1.7",
 		"prettier": "^3.6.2",
+		"prettier-plugin-sort-imports": "1.8.8",
 		"ts-node": "^10.9.2",
 		"tsx": "^4.20.3",
 		"turbo": "^2.5.4",
