@@ -3,7 +3,7 @@
 	"private": true,
 	"version": "1.0.0",
 	"description": "A modern, type-safe nursing home management system built with PostgreSQL and Effect, designed to streamline resident care, staff management, and medication administration.",
-	"packageManager": "npm@10.9.2",
+	"packageManager": "npm@11.5.1",
 	"workspaces": [
 		"apps/*",
 		"packages/*"
@@ -40,6 +40,7 @@
 		"node": ">=18"
 	},
 	"dependencies": {
-		"effect": "^3.16.13"
+		"effect": "^3.16.13",
+		"npm": "^11.5.1"
 	}
 }
